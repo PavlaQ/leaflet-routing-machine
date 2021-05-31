@@ -132,7 +132,7 @@
 
 			this._updateLines({route: route, alternatives: alternatives});
 
-			if (fitBounds) {
+			if (fitBounds && this._map) {
 				this._map.fitBounds(this._line.getBounds());
 			}
 
@@ -194,28 +194,30 @@
 		},
 
 		_updateLines: function(routes) {
-			var addWaypoints = this.options.addWaypoints !== undefined ?
-				this.options.addWaypoints : true;
-			this._clearLines();
+			if(this._map) {
+				var addWaypoints = this.options.addWaypoints !== undefined ?
+					this.options.addWaypoints : true;
+				this._clearLines();
 
-			// add alternatives first so they lie below the main route
-			this._alternatives = [];
-			if (routes.alternatives) routes.alternatives.forEach(function(alt, i) {
-				this._alternatives[i] = this.options.routeLine(alt,
+				// add alternatives first so they lie below the main route
+				this._alternatives = [];
+				if (routes.alternatives) routes.alternatives.forEach(function (alt, i) {
+					this._alternatives[i] = this.options.routeLine(alt,
+						L.extend({
+							isAlternative: true
+						}, this.options.altLineOptions || this.options.lineOptions));
+					this._alternatives[i].addTo(this._map);
+					this._hookAltEvents(this._alternatives[i]);
+				}, this);
+
+				this._line = this.options.routeLine(routes.route,
 					L.extend({
-						isAlternative: true
-					}, this.options.altLineOptions || this.options.lineOptions));
-				this._alternatives[i].addTo(this._map);
-				this._hookAltEvents(this._alternatives[i]);
-			}, this);
-
-			this._line = this.options.routeLine(routes.route,
-				L.extend({
-					addWaypoints: addWaypoints,
-					extendToWaypoints: this.options.waypointMode === 'connect'
-				}, this.options.lineOptions));
-			this._line.addTo(this._map);
-			this._hookEvents(this._line);
+						addWaypoints: addWaypoints,
+						extendToWaypoints: this.options.waypointMode === 'connect'
+					}, this.options.lineOptions));
+				this._line.addTo(this._map);
+				this._hookEvents(this._line);
+			}
 		},
 
 		_hookEvents: function(l) {

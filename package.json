@@ -1,7 +1,7 @@
 {
-  "name": "leaflet-routing-machine",
+  "name": "leaflet-routing-machine-done",
   "version": "3.2.12",
-  "description": "Routing for Leaflet",
+  "description": "Routing for Leaflet from Done!",
   "directories": {
     "example": "examples",
     "dist": "dist"
