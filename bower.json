@@ -1,7 +1,7 @@
 {
-  "name": "leaflet-routing-machine",
+  "name": "leaflet-routing-machine-done",
   "version": "3.2.5",
-  "homepage": "https://github.com/perliedman/leaflet-routing-machine",
+  "homepage": "https://github.com/PavlaQ/leaflet-routing-machine",
   "authors": [
     "Per Liedman <per@liedman.net> (http://www.liedman.net/)"
   ],
